@@ -1,0 +1,52 @@
+﻿1.安装anaconda，代码为：yaourt -S anaconda   
+2.在anaconda下，安装pytorch，代码为：sudo pacman -S python-pytorch-cuda  
+3.找到本机上安装python的位置，代码为：  
+python  
+Python 3.7.1 (default, Oct 22 2018, 10:41:28)   
+[GCC 8.2.1 20180831] on linux  
+Type "help", "copyright", "credits" or "license" for more information.  
+>>> import torch  
+>>> torch.__file__  
+'/usr/lib/python3.7/site-packages/torch/__init__.py'这就是torch的位置
+4.在conda下安装虚环境，代码如下：  
+conda create -n pytorch python=3.7   
+进入虚环境：  
+conda activate pytorch  
+5.查找虚环境下python的位置：   
+which python  
+/home/kd/.conda/envs/pytorch/bin/python  
+6.将本机上python位置下的site-packages包复制到虚环境下的python位置下，代码如下：  
+sudo scp -r /usr/lib/python3.7/site-packages /home/kd/.conda/envs/pytorch/lib/python3.7/  
+7.试验是否成功：python  
+Python 3.7.1 (default, Oct 23 2018, 19:19:42)   
+[GCC 7.3.0] :: Anaconda, Inc. on linux  
+Type "help", "copyright", "credits" or "license" for more information.  
+>>> import torch  
+>>> torch.cuda.is_available()  
+True  
+
+
+torchvision的安装：python -m pip install torchvision  
+
+2018年12月14日遇到的问题：  
+1.pacman不能用，总是出现问题：解决方法：  
+$ sudo nano /etc/pacman.conf  
+在文件底部加入如下几行:  
+[archlinuxcn]  
+#The Chinese Arch Linux communities packages.  
+SigLevel = Optional TrustedOnly  
+Server = http://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch   
+
+注意：  
+source /opt/anaconda/bin/activate root  
+
+今天一天都在弄版本问题，按照之前的方法是不能很好的将0.4.1版本装上，所以又有了新的方法：  
+pytorch网址：https://pytorch.org/get-started/previous-versions/  
+在其中下载0.4.1版本的whl文件。  
+用pip install /path/to/whl/file将0.4.1安装好。然后再利用上面的过程来安装虚环境。  
+
+
+  
+
+
+
